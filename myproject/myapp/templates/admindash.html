@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="/static/css/admin.css">
+    <!-- In base.html or the HTML head -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .admin-container {
+            display: flex;
+            height: 100vh;
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px;
+        }
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+        .sidebar ul li {
+            margin: 20px 0;
+        }
+        .sidebar ul li a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            padding: 10px;
+            transition: background 0.3s;
+            cursor: pointer;
+        }
+        .sidebar ul li a:hover {
+            background-color: #34495e;
+        }
+        .main-content {
+            flex: 1;
+            padding: 20px;
+        }
+        header {
+            background-color: #ecf0f1;
+            padding: 10px;
+            border-bottom: 1px solid #bdc3c7;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .content {
+            margin-top: 20px;
+        }
+        .hidden {
+            display: none;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <div class="sidebar">
+            <ul>
+                <ul>
+                    <li><a href="#" data-section="dashboard">Admin</a></li>
+                    <li><a href="#" data-section="recruiter-details">Recruiter Details</a></li>
+                    <li><a href="#" data-section="job-seeker-details">Job Seeker Details</a></li>
+                    <li><a href="#" data-section="recruiter-approval">Recruiter Approval</a></li>
+                    <li><a href="#" data-section="view-jobs">View Jobs</a></li>
+
+                    <li><a href="#" data-section="about-us">About Us</a></li>
+                </ul>
+                
+            </ul>
+        </div>
+        <div class="main-content">
+            <header>
+                <h2>Admin Dashboard</h2>
+                <form method="post" action="{% url 'logout' %}" style="margin-left: auto;">
+                    {% csrf_token %}
+                    <button type="submit" style="padding: 10px 20px; background-color: red; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                        Logout
+                    </button>
+                </form>
+            </header>
+            </header>
+
+
+            <style>
+                
+            </style>
+            <div class="content" id="dashboard">
+                <h3>Dashboard</h3>
+                <p>Job Seekers: {{ job_seeker_count }}</p>
+                <p>Recruiters: {{ recruiter_count }}</p>
+            </div>
+            <div class="content hidden" id="job-seeker-details">
+                <h3>Job Seeker Details</h3>
+                <ul>
+                    {% for seeker in job_seekers %}
+                        <li>{{ seeker.username }} - {{ seeker.email }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="content hidden" id="recruiter-details">
+                <h3>Recruiter Details</h3>
+                <!-- <table border="1">
+                    <tr> -->
+                        <!-- <table border="1">
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                               
+                                <th>Action</th> 
+                            </tr>
+                            {% for recruiter in recruiters %}
+                            <tr>
+                                <td>{{ recruiter.id }}</td>
+                                <td>{{ recruiter.first_name }} {{ recruiter.last_name }}</td>
+                                <td>{{ recruiter.email }}</td>
+                                <td>{{ recruiter.job_count }}</td>
+                                <td>
+                                    <form method="POST" action="{% url 'delete_recruiter' recruiter.id %}" style="display:inline;">
+                                        {% csrf_token %}
+                                        <button type="submit"style="background-color: red; color: white; padding: 5px 10px; border: none; border-radius: 6px; cursor: pointer;">
+                Delete
+                </button>
+
+
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </table> -->
+
+
+                        <style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        font-family: Arial, sans-serif;
+        font-size: 16px;
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 12px 15px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #007bff;
+        color: white;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    tr:hover {
+        background-color: #e6f7ff;
+    }
+
+    button {
+        background-color: red;
+        color: white;
+        padding: 6px 12px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: darkred;
+    }
+</style>
+
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Jobs Posted</th>
+        <th>Action</th>
+    </tr>
+    {% for recruiter in recruiters %}
+    <tr>
+        <td>{{ recruiter.id }}</td>
+        <td>{{ recruiter.first_name }} {{ recruiter.last_name }}</td>
+        <td>{{ recruiter.email }}</td>
+        <td>{{ recruiter.job_count }}</td>
+        <td>
+            <form method="POST" action="{% url 'delete_recruiter' recruiter.id %}" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+                        
+                
+            </div>
+            
+            <div class="content hidden" id="recruiter-approval">
+                <h3>Recruiter Approval</h3>
+                <ul>
+                    {% for recruiter in pending_recruiters %}
+                        <li>
+                            {{ recruiter.username }} 
+                            <li>
+  {{ recruiter.name }}
+  <a href="{% url 'approve_recruiter' recruiter.id %}" class="btn btn-success" style="margin-left: 10px;">Approve</a>
+</li>
+
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            
+            <!-- <div class="content hidden" id="post-job">
+                <h3>Post a Job</h3>
+                <form method="POST" action="{% url 'post_job' %}">
+                    {% csrf_token %}
+                    <input type="text" name="title" placeholder="Job Title" required>
+                    <textarea name="description" placeholder="Job Description" required></textarea>
+                    <input type="text" name="location" placeholder="Location" required>
+                    <input type="number" name="salary" placeholder="Salary" required>
+                    <input type="text"  name="skill" placeholder="skill" required>
+                    <button type="submit">Post Job</button>
+                </form>
+            </div> -->
+            <!-- <div class="content hidden {% if show_jobs %}active{% endif %}" id="view-jobs">
+    <h3>Posted Jobs</h3>
+    <table border="1" style="width: 100%; border-collapse: collapse;">
+        <thead>
+            <tr style="background-color: #f2f2f2;">
+                <th>ID</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Location</th>
+                <th>Skill</th>
+                <th>Salary</th>
+                <th>Company</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for job in jobs %}
+            <tr>
+                <td>{{ job.id }}</td>
+                <td>{{ job.title }}</td>
+                <td>{{ job.description }}</td>
+                <td>{{ job.location }}</td>
+                <td>{{ job.skill }}</td>
+                <td>{{ job.salary }}</td>
+                <td>{{ job.company_name }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="7">No jobs posted yet.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div> -->
+
+<div class="content {% if not show_jobs %}hidden{% endif %}" id="view-jobs">
+    <h3>Posted Jobs</h3>
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Location</th>
+                <th>Skill</th>
+                <th>Salary</th>
+                <th>Company</th>
+                <th>Action</th> <!-- Delete button -->
+            </tr>
+        </thead>
+        <tbody>
+            {% for job in jobs %}
+            <tr>
+                <td>{{ job.id }}</td>
+                <td>{{ job.title }}</td>
+                <td>{{ job.description }}</td>
+                <td>{{ job.location }}</td>
+                <td>{{ job.skill }}</td>
+                <td>{{ job.salary }}</td>
+                <td>{{ job.company_name }}</td>
+                <td>
+                    <form method="POST" action="{% url 'delete_job' job.id %}" onsubmit="return confirm('Are you sure you want to delete this job?');">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="8">No jobs posted yet.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+</div>
+            <div class="content hidden" id="about-us">
+                <h3>About Us</h3>
+                <p>Welcome to the Job Portal Admin Dashboard. This platform helps administrators manage job seekers, recruiters, and job postings efficiently.</p>
+    <p>Our mission is to provide a seamless connection between job seekers and employers, ensuring a smooth hiring process.</p>
+    <p>Admins are responsible for verifying recruiters, monitoring job listings, and maintaining platform integrity.</p>
+    <p>If you have any queries, feel free to contact us at <strong>support@jobportal.com</strong>.</p>
+</div>
+      
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const links = document.querySelectorAll(".sidebar ul li a");
+            const sections = document.querySelectorAll(".content");
+    
+            links.forEach(link => {
+                link.addEventListener("click", (event) => {
+                    event.preventDefault();
+                    const sectionId = link.getAttribute("data-section");
+    
+                    sections.forEach(section => {
+                        section.classList.add("hidden");
+                    });
+    
+                    document.getElementById(sectionId).classList.remove("hidden");
+                });
+            });
+        });
+    </script>
+    
+</body>
+</html>
+
+
+

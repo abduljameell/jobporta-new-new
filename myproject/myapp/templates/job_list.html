@@ -1,0 +1,13 @@
+<h2>Available Jobs</h2>
+<ul>
+    {% for job in jobs %}
+        <li>
+            <h3>{{ job.title }}</h3>
+            <p>{{ job.description }}</p>
+            <p>Location: {{ job.location }}</p>
+            <P>skill required: {{ job.recruiter.skill }}</P>
+            <p>Salary: {{ job.salary }}</p>
+            <p>Posted by: {{ job.recruiter.username }}</p>
+        </li>
+    {% endfor %}
+</ul>

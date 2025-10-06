@@ -1,0 +1,11 @@
+<h2>Recruiter Details</h2>
+<table>
+    <tr><th>Name</th><th>Email</th><th>Status</th></tr>
+    {% for recruiter in recruiters %}
+    <tr>
+        <td>{{ recruiter.username }}</td>
+        <td>{{ recruiter.email }}</td>
+        <td>{{ recruiter.is_active }}</td>
+    </tr>
+    {% endfor %}
+</table>
